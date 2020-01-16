@@ -1,0 +1,16 @@
+% [labels, conf_map, maps, pmaps] = APPtestImage(city10,[],vert_classifier,horz_classifier,segment_density);
+% imdir = 'E:\Matlab2019b\POP\popTestImages\popTestImages';
+% imfn = dir([imdir '/*.jpg']);
+% imfn = {imfn(:).name};
+imfn = [];
+fileID = fopen('F:/cocotrain2017/filenamelist.txt','r');
+tline = fgetl(fileID);
+while ischar(tline)
+    file= ['F:/cocotrain2017/train2017/train2017/',tline];
+    imfn = [imfn, { file}];
+    disp(file)
+    tline = fgetl(fileID);
+end
+varargin = 'F:\cocotrain2017\context_result';
+APPtestDirectory_o(segment_density, vert_classifier, horz_classifier, imdir, imfn, varargin);
+

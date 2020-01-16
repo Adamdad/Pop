@@ -1,0 +1,41 @@
+function classifier = gentleBoost(x, y, Nrounds)
+% gentleBoost
+%
+% features x
+% class: y = [-1,1]
+%
+%
+
+% Implementation of gentleBoost:
+% Friedman, J. H., Hastie, T. and Tibshirani, R. 
+% "Additive Logistic Regression: a Statistical View of Boosting." (Aug. 1998) 
+
+% atb, 2003
+
+[Nfeatures, Nsamples] = size(x); % Nsamples = Number of thresholds that we will consider
+Fx = zeros(1, Nsamples);
+w  = ones(1, Nsamples); %w = w/sum(w);
+
+for m = 1:Nrounds
+    disp(sprintf('Round %d', m))
+    
+    % weak regression 
+    [featureNdx, th, a , b] = selectBestRegressionStump(x, y, w);
+    disp(['feature: ' num2str(featureNdx)])
+    
+    % update parameters classifier
+    classifier(m).featureNdx = featureNdx;
+    classifier(m).th = th;
+    classifier(m).a  = a;
+    classifier(m).b  = b;
+    
+    % Updating and computing classifier output
+    fm = (a * (x(featureNdx,:)>th) + b);
+    Fx = Fx + fm;
+    
+    w1 = sum(w);
+    w = w .* exp(-y.*fm);
+    disp(['Z: ' num2str(sum(w)/w1)]);
+    %w = w / sum(w);
+end
+
