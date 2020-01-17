@@ -49,7 +49,7 @@ for f = 1:length(imfn)
 
         if size(image, 3) == 3 
 
-            disp(['processing image ' fn]);
+            disp(['processing image ' fn f]);
 
             [labels(f), conf_map(f), maps{f}, pmaps(f)] = ...
                     APPtestImage(image, imsegs(f), vClassifier, hClassifier, segDensity);               
